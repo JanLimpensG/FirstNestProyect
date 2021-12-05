@@ -6,6 +6,11 @@ import { CategoriesController } from './controllers/categories/categories.contro
 import { BrandsController } from './controllers/brands/brands.controller';
 import { CustomersController } from './controllers/customers/customers.controller';
 import { OrdersController } from './controllers/orders/orders.controller';
+import { ProductsService } from './services/products/products.service';
+import { CategoriesService } from './services/categories/categories.service';
+import { BrandsService } from './services/brands/brands.service';
+import { CustomersService } from './services/customers/customers.service';
+import { OrdersService } from './services/orders/orders.service';
 
 @Module({
   imports: [],
@@ -17,6 +22,13 @@ import { OrdersController } from './controllers/orders/orders.controller';
     CustomersController,
     OrdersController,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    ProductsService,
+    CategoriesService,
+    BrandsService,
+    CustomersService,
+    OrdersService,
+  ],
 })
 export class AppModule {}
