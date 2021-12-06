@@ -7,57 +7,41 @@ import {
   Body,
   Put,
   Delete,
-  Res,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { ProductsService } from '../../services/products/products.service';
 // Al usar el Response, se puede manejar la respuesta como si lo hicieras en Express, no es recomenrando, pero se puede hacer
 
 @Controller('products')
 export class ProductsController {
-  @Get(':productId')
-  getOne(@Res() response: Response, @Param('productId') productId: string) {
-    response.status(200).send({
-      message: `product ${productId}`,
-    });
-  }
+  constructor(private productsService: ProductsService) {}
+
   @Get()
   getProducts(
-    @Res() response: Response,
     @Query('limit') limit = 100,
     @Query('offset') offset = 0,
     @Query('brand') brand: string,
   ) {
-    response.status(200).send({
-      message: `products: limit => ${limit}, offset => ${offset}, brand => ${brand}`,
-    });
+    return this.productsService.findAll();
   }
-  @Get('filter')
-  getProductFilter(@Res() response: Response) {
-    response.status(200).send(`Yo soy un filter`);
+
+  @Get(':id')
+  getProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.findOne(id);
   }
 
   @Post()
-  create(@Res() response: Response, @Body() payload: any) {
-    response.status(200).send({
-      message: 'acción de crear',
-      payload,
-    });
+  create(@Body() payload: any) {
+    return this.productsService.create(payload);
   }
 
   @Put(':id')
-  update(
-    @Res() response: Response,
-    @Param('id') id: number,
-    @Body() payload: any,
-  ) {
-    response.status(200).send({
-      id,
-      payload,
-    });
+  update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+    return this.productsService.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Res() response: Response, @Param('id') id: number) {
-    response.status(200).send(`id: ${id}`);
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.delete(id);
   }
 }
