@@ -10,7 +10,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ProductsService } from '../../services/products/products.service';
-// Al usar el Response, se puede manejar la respuesta como si lo hicieras en Express, no es recomenrando, pero se puede hacer
+import { CreateProductDto, UpdateProductDto } from '../../dtos/proucts.dtos';
 
 @Controller('products')
 export class ProductsController {
@@ -31,12 +31,15 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: CreateProductDto) {
     return this.productsService.create(payload);
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
+  ) {
     return this.productsService.update(id, payload);
   }
 
