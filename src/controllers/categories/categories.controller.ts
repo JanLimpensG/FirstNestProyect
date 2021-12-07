@@ -4,22 +4,21 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
+import { CreateCategoryDto, UpdateCategoryDto } from 'src/dtos/category.dtos';
 
 @Controller('categories')
 export class CategoriesController {
-  @Get(':categoryId/products/:productId')
-  getCategory(
-    @Param('categoryId') categoryId: string,
-    @Param('productId') productId: string,
-  ) {
-    return `product ${categoryId} and ${productId}`;
+  @Get(':id')
+  getCategory(@Param('id', ParseIntPipe) id: number) {
+    return `product ${id}`;
   }
 
   @Post()
-  create(@Body() payload: any) {
+  create(@Body() payload: CreateCategoryDto) {
     return {
       message: 'Se creó la categoría',
       payload,
@@ -27,7 +26,10 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateCategoryDto,
+  ) {
     return {
       message: 'Se editó la categoría',
       id,
@@ -36,7 +38,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return id;
   }
 }

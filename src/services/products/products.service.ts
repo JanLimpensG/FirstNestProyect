@@ -36,7 +36,7 @@ export class ProductsService {
       id: this.counterId,
       ...payload,
     };
-    this, this.products.push(newProduct);
+    this.products.push(newProduct);
     return newProduct;
   }
 
